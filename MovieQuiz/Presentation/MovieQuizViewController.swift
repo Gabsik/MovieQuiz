@@ -1,6 +1,8 @@
 import UIKit
 
 final class MovieQuizViewController: UIViewController, QuestionFactoryDelegate {
+    
+    private let statisticService: StatisticServiceProtocol = StatisticService()
    
     @IBOutlet weak private var textLabel: UILabel!
     @IBOutlet weak private var counterLabel: UILabel!
@@ -72,7 +74,21 @@ final class MovieQuizViewController: UIViewController, QuestionFactoryDelegate {
     
     private func showNextQuestionOrResults() {
         if currentQuestionIndex == questionsAmount - 1 {
-            let text = "Ваш результат: \(correctAnswers)/10"
+
+            statisticService.store(correct: correctAnswers, total: questionsAmount)
+
+            let bestGame = statisticService.bestGame
+            let totalAccuracy = statisticService.totalAccuracy
+            let bestGameText = """
+                    Лучший результат: \(bestGame.correct)/\(bestGame.total) (\(bestGame.date))
+                    Общая точность: \(String(format: "%.2f", totalAccuracy))%
+                    """
+            
+            let text = """
+                    Ваш результат: \(correctAnswers)/\(questionsAmount)
+                    \(bestGameText)
+                    """
+            
             let viewModel = QuizResultsViewModel(
                 title: "Этот раунд окончен!",
                 text: text,
@@ -85,7 +101,7 @@ final class MovieQuizViewController: UIViewController, QuestionFactoryDelegate {
             changeStateButton(isEnabled: true)
         }
     }
-
+    
     @IBAction private func noButtonClicked(_ sender: Any) {
         guard let currentQuestion = currentQuestion else {
             return

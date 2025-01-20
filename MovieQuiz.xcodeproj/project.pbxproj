@@ -26,6 +26,9 @@
 		CE66D6402D0B397200CBEA86 /* YS Display-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = CE66D63E2D0B397200CBEA86 /* YS Display-Medium.ttf */; };
 		CE8584AE2D327FA2007BB63C /* AlertModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE8584AD2D327FA1007BB63C /* AlertModel.swift */; };
 		CE8584B02D327FC2007BB63C /* AlertPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE8584AF2D327FC2007BB63C /* AlertPresenter.swift */; };
+		CE8584B42D380CD0007BB63C /* StatisticServiceProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE8584B32D380CD0007BB63C /* StatisticServiceProtocol.swift */; };
+		CE8584B62D380DDC007BB63C /* GameResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE8584B52D380DDC007BB63C /* GameResult.swift */; };
+		CE8584B92D381989007BB63C /* StatisticService.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE8584B82D381989007BB63C /* StatisticService.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -50,6 +53,9 @@
 		CE66D63E2D0B397200CBEA86 /* YS Display-Medium.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "YS Display-Medium.ttf"; sourceTree = "<group>"; };
 		CE8584AD2D327FA1007BB63C /* AlertModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertModel.swift; sourceTree = "<group>"; };
 		CE8584AF2D327FC2007BB63C /* AlertPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertPresenter.swift; sourceTree = "<group>"; };
+		CE8584B32D380CD0007BB63C /* StatisticServiceProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatisticServiceProtocol.swift; sourceTree = "<group>"; };
+		CE8584B52D380DDC007BB63C /* GameResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameResult.swift; sourceTree = "<group>"; };
+		CE8584B82D381989007BB63C /* StatisticService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatisticService.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -70,6 +76,7 @@
 				CE5706CB2D2983AE00D10CC5 /* QuizResultsViewModel.swift */,
 				CE5706CD2D2983BD00D10CC5 /* QuizQuestion.swift */,
 				CE8584AD2D327FA1007BB63C /* AlertModel.swift */,
+				CE8584B52D380DDC007BB63C /* GameResult.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -80,6 +87,8 @@
 				CE5706C72D29801300D10CC5 /* QuestionFactory.swift */,
 				CE5706CF2D2A9AC400D10CC5 /* QuestionFactoryProtocol.swift */,
 				CE5706D12D2C18F200D10CC5 /* QuestionFactoryDelegate.swift */,
+				CE8584B32D380CD0007BB63C /* StatisticServiceProtocol.swift */,
+				CE8584B82D381989007BB63C /* StatisticService.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -224,16 +233,19 @@
 				CE8584B02D327FC2007BB63C /* AlertPresenter.swift in Sources */,
 				CE8584AE2D327FA2007BB63C /* AlertModel.swift in Sources */,
 				AD7AFA552836189F00399704 /* Array+Extensions.swift in Sources */,
+				CE8584B62D380DDC007BB63C /* GameResult.swift in Sources */,
 				CE5706D02D2A9AC400D10CC5 /* QuestionFactoryProtocol.swift in Sources */,
 				CE5706D22D2C18F200D10CC5 /* QuestionFactoryDelegate.swift in Sources */,
 				AD1ABAB62831907B00B3E448 /* MovieQuizViewController.swift in Sources */,
 				CE5706CA2D29839A00D10CC5 /* QuizStepViewModel.swift in Sources */,
 				CE5706CE2D2983BD00D10CC5 /* QuizQuestion.swift in Sources */,
+				CE8584B42D380CD0007BB63C /* StatisticServiceProtocol.swift in Sources */,
 				CE5706C82D29801300D10CC5 /* QuestionFactory.swift in Sources */,
 				AD77F5742857F8810062FB14 /* Date+Extensions.swift in Sources */,
 				AD1ABAB22831907B00B3E448 /* AppDelegate.swift in Sources */,
 				CE5706CC2D2983AE00D10CC5 /* QuizResultsViewModel.swift in Sources */,
 				AD1ABAB42831907B00B3E448 /* SceneDelegate.swift in Sources */,
+				CE8584B92D381989007BB63C /* StatisticService.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
