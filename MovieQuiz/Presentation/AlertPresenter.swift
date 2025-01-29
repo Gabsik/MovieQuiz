@@ -1,7 +1,7 @@
 import Foundation
 import UIKit
 
-class AlertPresenter {
+final class AlertPresenter {
     weak var viewController: UIViewController?
     
     init(viewController: UIViewController) {
