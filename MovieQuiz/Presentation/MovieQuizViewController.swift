@@ -168,8 +168,8 @@ final class MovieQuizViewController: UIViewController, QuestionFactoryDelegate {
     }
     
     private func hideLoadingIndicator() {
-        activityIndicator.isHidden = true // скрываем индикатор загрузки
-        activityIndicator.stopAnimating() // останавливаем анимацию
+        activityIndicator.isHidden = true
+        activityIndicator.stopAnimating()
     }
     
     func didLoadDataFromServer() {

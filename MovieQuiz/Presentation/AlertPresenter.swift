@@ -8,7 +8,7 @@ final class AlertPresenter {
         self.viewController = viewController
     }
     
-     func showAlert(model: AlertModel) {
+    func showAlert(model: AlertModel) {
         let alert = UIAlertController(
             title: model.title,
             message: model.message,
@@ -16,8 +16,8 @@ final class AlertPresenter {
         let action = UIAlertAction(
             title: model.buttonText,
             style: .default) { _ in
-            model.completion?()
-        }
+                model.completion?()
+            }
         alert.addAction(action)
         viewController?.present(alert, animated: true)
     }
