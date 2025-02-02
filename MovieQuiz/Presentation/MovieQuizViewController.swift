@@ -127,9 +127,7 @@ final class MovieQuizViewController: UIViewController, QuestionFactoryDelegate {
         let alert = AlertModel(
             title: result.title,
             message: result.text,
-            buttonText: result.buttonText
-        ) { [weak self] in
-            
+            buttonText: result.buttonText) { [weak self] in
             guard let self = self else { return }
             self.currentQuestionIndex = 0
             self.correctAnswers = 0
@@ -151,7 +149,7 @@ final class MovieQuizViewController: UIViewController, QuestionFactoryDelegate {
         activityIndicator.startAnimating()
     }
     
-    //MARK: ERORR ALERT
+    //MARK: - ERORR ALERT
     private func showNetworkError(message: String) {
         hideLoadingIndicator()
         alertPresenter = AlertPresenter(viewController: self)
