@@ -7,7 +7,13 @@ final class MovieQuizPresenter {
     let questionsAmount: Int = 10
     private var currentQuestionIndex: Int = 0
     var currentQuestion: QuizQuestion?
+    var correctAnswers: Int = .zero
     weak var viewController: MovieQuizViewController?
+    private let statisticService: StatisticServiceProtocol = StatisticService()
+    var questionFactory: QuestionFactoryProtocol!
+    
+    
+    
     
     
     func convert(model: QuizQuestion) -> QuizStepViewModel {
@@ -28,18 +34,59 @@ final class MovieQuizPresenter {
     }
     
     func yesButtonClicked() {
-        guard let currentQuestion = currentQuestion else {
-            return
-        }
-        let givenAnswer = false
-        viewController?.showAnswerResult(isCorrect: givenAnswer == currentQuestion.correctAnswer)
+        didAnswer(isYes: false)
     }
     
     func noButtonClicked() {
+        didAnswer(isYes: true)
+    }
+    
+    private func didAnswer(isYes: Bool) {
         guard let currentQuestion = currentQuestion else {
             return
         }
-        let givenAnswer = true
+        let givenAnswer = isYes
         viewController?.showAnswerResult(isCorrect: givenAnswer == currentQuestion.correctAnswer)
+    }
+    
+    func didReceiveNextQuestion(question: QuizQuestion?) {
+        guard let question = question else {
+            return
+        }
+        
+        currentQuestion = question
+        let viewModel = convert(model: question)
+        DispatchQueue.main.async { [weak self] in
+            self?.viewController?.show(quiz: viewModel)
+        }
+    }
+    
+    func showNextQuestionOrResults() {
+        if self.isLastQuestion() {
+            statisticService.store(correct: correctAnswers, total: self.questionsAmount)
+            
+            let bestGame = statisticService.bestGame
+            let totalAccuracy = statisticService.totalAccuracy
+            let totalGames = statisticService.gamesCount
+            let bestGameText = """
+                    Лучший результат: \(bestGame.correct)/\(bestGame.total) (\(bestGame.date.dateTimeString))
+                    Общая точность: \(String(format: "%.2f", totalAccuracy))%
+                    """
+            
+            let text = """
+                    Ваш результат: \(correctAnswers) из \(questionsAmount)
+                    Количество сыграных квизов: \(totalGames)
+                    \(bestGameText)
+                    """
+            
+            let viewModel = QuizResultsViewModel(
+                title: "Этот раунд окончен!",
+                text: text,
+                buttonText: "Сыграть ещё раз")
+            viewController?.show(quiz: viewModel)
+        } else {
+            self.switchToNextQuestion()
+            questionFactory?.requestNextQuestion()
+        }
     }
 }
