@@ -1,6 +1,24 @@
 import UIKit
 
-final class MovieQuizViewController: UIViewController {
+
+enum UIState {
+    case answerResult(isCorrect: Bool)
+    case resetBorder
+}
+
+protocol MovieQuizViewControllerProtocol: AnyObject {
+    func show(quiz step: QuizStepViewModel)
+    func show(quiz result: QuizResultsViewModel)
+    
+    func showLoadingIndicator()
+    func hideLoadingIndicator()
+    
+    func showNetworkError(message: String)
+    
+    func updateUI(state: UIState)
+}
+
+final class MovieQuizViewController: UIViewController, MovieQuizViewControllerProtocol {
     
     @IBOutlet weak private var textLabel: UILabel!
     @IBOutlet weak private var counterLabel: UILabel!
@@ -39,18 +57,17 @@ final class MovieQuizViewController: UIViewController {
         alertPresenter = AlertPresenter(viewController: self)
         
         let message = presenter.makeResultsMessage()
-        let alert = UIAlertController(
+        
+        let alert = AlertModel(
             title: result.title,
             message: message,
-            preferredStyle: .alert)
-        
-        let action = UIAlertAction(title: result.buttonText, style: .default) { [weak self] _ in
-            guard let self = self else { return }
+            buttonText: result.buttonText
+        ) { [weak self] in
             
+            guard let self = self else { return }
             self.presenter.restartGame()
         }
-        alert.addAction(action)
-        self.present(alert, animated: true, completion: nil)
+        alertPresenter?.showAlert(model: alert)
     }
     
     func changeStateButton(isEnabled: Bool) {
@@ -76,24 +93,21 @@ final class MovieQuizViewController: UIViewController {
         alertPresenter?.showAlert(model: model)
     }
     
-    private func hideLoadingIndicator() {
-        activityIndicator.isHidden = true
-        activityIndicator.stopAnimating()
-    }
-    
-    func hideLoadingIndicatorr() {
+    func hideLoadingIndicator() {
         activityIndicator.isHidden = true
     }
     
-    func highlightImageBorder(isCorrectAnswer: Bool) {
-        changeStateButton(isEnabled: false)
-        imageView.layer.masksToBounds = true
-        imageView.layer.borderWidth = 8
-        imageView.layer.borderColor = isCorrectAnswer ? UIColor.ypGreen.cgColor : UIColor.ypRed.cgColor
-    }
-    func resetImageBorder() {
-        changeStateButton(isEnabled: true)
-        imageView.layer.borderWidth = 0
+    func updateUI(state: UIState) {
+        switch state {
+        case .answerResult(let isCorrect):
+            changeStateButton(isEnabled: false)
+            imageView.layer.masksToBounds = true
+            imageView.layer.borderWidth = 8
+            imageView.layer.borderColor = isCorrect ? UIColor.ypGreen.cgColor : UIColor.ypRed.cgColor
+        case .resetBorder:
+            changeStateButton(isEnabled: true)
+            imageView.layer.borderWidth = 0
+        }
     }
     
 }

@@ -68,10 +68,12 @@ class MovieQuizUITests: XCTestCase {
         sleep(4)
         for _ in 1...10 {
             app.buttons["No"].tap()
-            sleep(5)
+            sleep(3)
         }
         
         let alert = app.alerts["Game results"]
+        
+        let exists = alert.waitForExistence(timeout: 10)
         
         XCTAssertTrue(alert.exists)
         XCTAssertTrue(alert.label == "Этот раунд окончен!")
@@ -79,7 +81,7 @@ class MovieQuizUITests: XCTestCase {
     }
     
     func testAlertDismiss() {
-        sleep(2)
+        sleep(5)
         for _ in 1...10 {
             app.buttons["No"].tap()
             sleep(2)
@@ -88,7 +90,7 @@ class MovieQuizUITests: XCTestCase {
         let alert = app.alerts["Game results"]
         alert.buttons.firstMatch.tap()
         
-        sleep(2)
+        sleep(5)
         
         let indexLabel = app.staticTexts["Index"]
         
