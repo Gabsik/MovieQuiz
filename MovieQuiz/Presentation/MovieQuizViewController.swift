@@ -9,12 +9,9 @@ enum UIState {
 protocol MovieQuizViewControllerProtocol: AnyObject {
     func show(quiz step: QuizStepViewModel)
     func show(quiz result: QuizResultsViewModel)
-    
     func showLoadingIndicator()
     func hideLoadingIndicator()
-    
     func showNetworkError(message: String)
-    
     func updateUI(state: UIState)
 }
 
@@ -22,14 +19,14 @@ final class MovieQuizViewController: UIViewController, MovieQuizViewControllerPr
     
     @IBOutlet weak private var textLabel: UILabel!
     @IBOutlet weak private var counterLabel: UILabel!
-    @IBOutlet weak var imageView: UIImageView!
+    @IBOutlet weak private var imageView: UIImageView!
     @IBOutlet weak private var noButton: UIButton!
     @IBOutlet weak private var yesButton: UIButton!
     @IBOutlet weak private var activityIndicator: UIActivityIndicatorView!
     
     private var alertPresenter: AlertPresenter?
     private var currentQuestion: QuizQuestion?
-    private var presenter: MovieQuizPresenter!
+    private var presenter: MovieQuizPresenter?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -45,18 +42,18 @@ final class MovieQuizViewController: UIViewController, MovieQuizViewControllerPr
     }
     
     @IBAction private func noButtonClicked(_ sender: Any) {
-        presenter.noButtonClicked()
+        presenter?.changeStateButton(isYes: true)
     }
     
     @IBAction private func yesButtonClicked(_ sender: Any) {
-        presenter.yesButtonClicked()
+        presenter?.changeStateButton(isYes: false)
     }
     
     func show(quiz result: QuizResultsViewModel) {
         
         alertPresenter = AlertPresenter(viewController: self)
         
-        let message = presenter.makeResultsMessage()
+        let message = presenter?.makeResultsMessage() ?? "Результаты недоступны"
         
         let alert = AlertModel(
             title: result.title,
@@ -65,7 +62,7 @@ final class MovieQuizViewController: UIViewController, MovieQuizViewControllerPr
         ) { [weak self] in
             
             guard let self = self else { return }
-            self.presenter.restartGame()
+            self.presenter?.restartGame()
         }
         alertPresenter?.showAlert(model: alert)
     }
@@ -87,8 +84,7 @@ final class MovieQuizViewController: UIViewController, MovieQuizViewControllerPr
                                message: message,
                                buttonText: "Попробовать еще раз") { [ weak self ] in
             guard let self = self else { return }
-            
-            self.presenter.restartGame()
+            self.presenter?.restartGame()
         }
         alertPresenter?.showAlert(model: model)
     }

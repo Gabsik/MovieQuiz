@@ -5,9 +5,8 @@ import UIKit
 final class MovieQuizPresenter: QuestionFactoryDelegate {
     
     private weak var viewController: MovieQuizViewControllerProtocol?
-    private var questionFactory: QuestionFactoryProtocol!
+    private var questionFactory: QuestionFactoryProtocol?
     private let statisticService: StatisticServiceProtocol = StatisticService()
-    
     
     init(viewController: MovieQuizViewControllerProtocol) {
         self.viewController = viewController
@@ -18,7 +17,7 @@ final class MovieQuizPresenter: QuestionFactoryDelegate {
     }
     
     private let questionsAmount: Int = 10
-    private var currentQuestionIndex: Int = 0
+    private var currentQuestionIndex: Int = .zero
     private var currentQuestion: QuizQuestion?
     private var correctAnswers: Int = .zero
     
@@ -54,8 +53,8 @@ final class MovieQuizPresenter: QuestionFactoryDelegate {
     }
     
     func restartGame() {
-        currentQuestionIndex = 0
-        correctAnswers = 0
+        currentQuestionIndex = .zero
+        correctAnswers = .zero
         questionFactory?.requestNextQuestion()
     }
     
@@ -63,13 +62,9 @@ final class MovieQuizPresenter: QuestionFactoryDelegate {
         currentQuestionIndex += 1
     }
     
-    func yesButtonClicked() {
-        didAnswer(isYes: false)
-    }
-    
-    func noButtonClicked() {
-        didAnswer(isYes: true)
-    }
+    func changeStateButton(isYes: Bool) {
+            didAnswer(isYes: isYes)
+        }
     
     private func didAnswer(isYes: Bool) {
         guard let currentQuestion = currentQuestion else {
@@ -97,7 +92,7 @@ final class MovieQuizPresenter: QuestionFactoryDelegate {
         }
     }
     
-    private func proceedToNextQuestionOrResults() {
+     func proceedToNextQuestionOrResults() {
         if self.isLastQuestion() {
             
             statisticService.store(correct: correctAnswers, total: self.questionsAmount)

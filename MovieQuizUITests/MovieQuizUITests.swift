@@ -1,13 +1,7 @@
-//
-//  MovieQuizUITests.swift
-//  MovieQuizUITests
-//
-//  Created by User on 02.02.2025.
-//
 
 import XCTest
 
-class MovieQuizUITests: XCTestCase {
+final class MovieQuizUITests: XCTestCase {
     
     var app: XCUIApplication!
     
@@ -33,8 +27,6 @@ class MovieQuizUITests: XCTestCase {
         let firstPosterData = firstPoster.screenshot().pngRepresentation
         
         let indexLabel = app.staticTexts["Index"]
-        indexLabel.label
-        
         
         app.buttons["Yes"].tap()
         sleep(3)
@@ -52,7 +44,6 @@ class MovieQuizUITests: XCTestCase {
         let firstPosterData = firstPoster.screenshot().pngRepresentation
         
         let indexLabel = app.staticTexts["Index"]
-        indexLabel.label
         
         app.buttons["No"].tap()
         sleep(5)
@@ -72,9 +63,7 @@ class MovieQuizUITests: XCTestCase {
         }
         
         let alert = app.alerts["Game results"]
-        
-        let exists = alert.waitForExistence(timeout: 10)
-        
+                
         XCTAssertTrue(alert.exists)
         XCTAssertTrue(alert.label == "Этот раунд окончен!")
         XCTAssertTrue(alert.buttons.firstMatch.label == "Сыграть ещё раз")
@@ -86,21 +75,12 @@ class MovieQuizUITests: XCTestCase {
             app.buttons["No"].tap()
             sleep(2)
         }
-        
         let alert = app.alerts["Game results"]
         alert.buttons.firstMatch.tap()
-        
         sleep(5)
         
         let indexLabel = app.staticTexts["Index"]
-        
         XCTAssertFalse(alert.exists)
         XCTAssertTrue(indexLabel.label == "1/10")
-    }
-    
-    func testExample() throws {
-        let app = XCUIApplication()
-        app.launch()
-        
     }
 }
